@@ -8,6 +8,7 @@ frontend/bazel-out
 
 # Node
 frontend/node_modules
+api/node_modules
 frontend/npm-debug.log
 frontend/yarn-error.log
 
