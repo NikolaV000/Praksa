@@ -1,4 +1,4 @@
-
+/* 
 
   .heading1 {
     font-size: 3.125rem;
@@ -15,20 +15,24 @@
     font-weight: 500;
     line-height: 100%;
     letter-spacing: -0.125rem;
-    margin: 0;
+    margin-top: 0;
+    margin-left: 300px;
     position:relative;
     
   }
   .list {
     padding-left: 20px;
     border:5px,solid,black;
+    width: 15%;
+    height: auto;
     
 
   }
   .task{
     border:1px,solid,black;
     border-radius: 5px;
-    padding-right: 45px;
+    padding-right: 30px;
+    width: 60%;
 
   }
   body{
@@ -41,15 +45,15 @@
   main {
     width: 100%;
     min-height: 100%;
-    display: flex;
+    display: block;
     justify-content: left;
     align-items: center;
     padding: 1rem;
-    box-sizing: inherit;
-    position: relative;
+    box-sizing:inherit;
+    position:relative;
     background-color: azure;
   }
 
   
 
-  
+   */
