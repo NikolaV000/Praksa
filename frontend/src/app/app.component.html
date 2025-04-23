@@ -4,14 +4,21 @@
 
 
 <main class="main">
-  <div class="d-flex">
-    <div>
+  <div class="row">
+    <div class="col" >
       <app-backlog></app-backlog>
     </div>
-    <div>
+    <div class="col">
       <app-todo></app-todo>
     </div>
+    <div class="col">
+      <app-in_progress></app-in_progress>
+    </div>
+    <div class="col">
+      <app-done></app-done>
+    </div>
   </div>
+  <button type="button" class="btn btn-primary">Add task</button>
  
  
 </main>
