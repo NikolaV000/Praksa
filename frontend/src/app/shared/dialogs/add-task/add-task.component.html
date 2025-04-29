@@ -1,0 +1,20 @@
+<ol>
+    <li>
+      <mat-form-field>
+        <button mat-raised-button (click)="openDialog()">Add task</button>
+      </mat-form-field>
+    </li>
+    
+</ol>
+<h2 mat-dialog-title>Add Task</h2>
+<mat-dialog-content>
+  <p>Create a new task</p>
+  <mat-form-field>
+    <mat-label>Task name</mat-label>
+    <input matInput [(ngModel)]="task"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Back</button>
+  <button mat-button [mat-dialog-close]="task()" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
