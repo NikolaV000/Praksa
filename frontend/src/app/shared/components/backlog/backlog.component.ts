@@ -2,9 +2,18 @@ import { Component, inject } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../../dialogs/add-task/add-task.component';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDrag,
+  CdkDropList,
+} from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'app-backlog',
+  imports: [CdkDropList, CdkDrag],
   templateUrl: './backlog.component.html',
   styleUrl: './backlog.component.css',
   standalone: true,
@@ -48,9 +57,21 @@ export class BacklogComponent {
       width: '600px',
     });
 
-    
+  }
+  backlog = ["Task1"];
+  
 
-
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 
 }

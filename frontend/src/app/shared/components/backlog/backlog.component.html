@@ -1,12 +1,16 @@
 <div>
     <h1>Backlog</h1>
-    <ul class="border border-primary list-group">
-        <li class="list-group-item">Task1</li>
-        <li class="list-group-item">Task1</li>
-        <li class="list-group-item">Task1</li>
-        <li class="list-group-item">Task1</li>
-        <li class="list-group-item">Task1</li>
-    </ul>
+</div>
+<div
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="backlog"
+    [cdkDropListConnectedTo]="[]"
+    class="list-group border border-secondary"
+    (cdkDropListDropped)="drop($event)">
+    @for (item of backlog; track item) {
+      <div class="list-group-item" cdkDrag>{{item}}</div>
+    }
 </div>
 <div>
      <button

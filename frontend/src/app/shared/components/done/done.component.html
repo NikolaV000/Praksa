@@ -1,9 +1,15 @@
-<div class="list">
-    <h1 class="heading2">Done</h1>
-    <ul class="border border-secondary list-group">
-      <li class="list-group-item">Task1</li>
-      <li class="list-group-item">Task2</li>
-      <li class="list-group-item">Task3</li>
-    </ul>
+<div>
+    <h1 >Done</h1>
+  <div
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="done"
+    [cdkDropListConnectedTo]="[]"
+    class="list-group border border-secondary"
+    (cdkDropListDropped)="drop($event)">
+    @for (item of done; track item) {
+      <div class="list-group-item" cdkDrag>{{item}}</div>
+    }
   </div>
+</div>
 

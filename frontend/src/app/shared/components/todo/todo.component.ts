@@ -17,8 +17,6 @@ import {
 export class TodoComponent {
   todo = ["Task1"];
 
-  done = ["Task1"];
-
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
