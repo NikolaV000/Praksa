@@ -1,1 +1,45 @@
-<p>sign-up works!</p>
+<div>
+    <h1>Sign Up</h1>
+</div>
+<div class="example-container">
+  <mat-form-field hintLabel="Max 20 characters">
+    <mat-label>Username</mat-label>
+    <input matInput #input maxlength="20" placeholder="Username" (input)="onInput($event)" />
+    <mat-hint align="end">{{value().length}}/20</mat-hint>
+  </mat-form-field>
+ 
+</div>
+<div class="example-container">
+    <mat-form-field>
+    <mat-label>Enter your email</mat-label>
+    <input
+      matInput
+      placeholder="pat@example.com"
+      [formControl]="email"
+      (blur)="updateErrorMessage()"
+      required
+    />
+    @if (email.invalid) {
+      <mat-error>{{errorMessage()}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="example-container">
+     <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput [type]="hide() ? 'password' : 'text'" />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="clickEvent($event)"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()"
+    >
+      <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+
+</div>
+<div>
+     <button type="button" class="btn btn-secondary">Sign up</button>
+</div>

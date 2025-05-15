@@ -14,10 +14,10 @@ import { MenuComponent } from './shared/components/menu/menu.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   imports: [
-    BacklogComponent,
-    TodoComponent,
-    InProgressComponent,
-    DoneComponent,
+    // BacklogComponent,
+    // TodoComponent,
+    // InProgressComponent,
+    // DoneComponent,
     AppRoutingModule,
     MenuComponent
   ]

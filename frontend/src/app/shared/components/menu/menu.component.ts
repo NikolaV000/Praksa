@@ -15,6 +15,9 @@ export class MenuComponent {
   goToListPage() {
     this.router.navigate(['/list-page']);
   }
+  goToTaskPage(){
+    this.router.navigate(['/task-page']);
+  }
 
 
 }
