@@ -6,10 +6,13 @@ import {
   CdkDrag,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-todo',
-  imports: [CdkDropList, CdkDrag],
+  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.css',
   standalone: true

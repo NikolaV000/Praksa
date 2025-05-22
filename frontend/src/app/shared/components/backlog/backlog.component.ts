@@ -2,6 +2,9 @@ import { Component, inject } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../../dialogs/add-task/add-task.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -13,7 +16,7 @@ import {
 
 @Component({
   selector: 'app-backlog',
-  imports: [CdkDropList, CdkDrag],
+  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule],
   templateUrl: './backlog.component.html',
   styleUrl: './backlog.component.css',
   standalone: true,

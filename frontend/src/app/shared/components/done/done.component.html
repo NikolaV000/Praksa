@@ -8,7 +8,12 @@
     class="list-group border border-secondary"
     (cdkDropListDropped)="drop($event)">
     @for (item of done; track item) {
-      <div class="list-group-item" cdkDrag>{{item}}</div>
+      <div class="list-group-item" cdkDrag>{{item}}
+        <button mat-mini-fab style="width:25px; height:25px; margin-left: 180px;">
+         <mat-icon>delete</mat-icon></button>
+         <button mat-mini-fab style="width:25px; height:25px; margin-left: 10px;">
+         <mat-icon>menu</mat-icon></button>
+      </div>
     }
   </div>
 </div>

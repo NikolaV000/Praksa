@@ -5,7 +5,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogActions,
   MatDialogClose,
@@ -48,7 +47,6 @@ openDialog(): void {
 
 }
   readonly dialogRef = inject(MatDialogRef<AddTaskComponent>);
-  // readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
   onNoClick(): void {
     this.dialogRef.close();

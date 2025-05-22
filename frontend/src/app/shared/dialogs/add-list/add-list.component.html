@@ -1,1 +1,11 @@
-<p>add-list works!</p>
+<h2 mat-dialog-title>Create a new list</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>List name</mat-label>
+    <input matInput [(ngModel)]="list"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Back</button>
+  <button mat-button [mat-dialog-close]="list()" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

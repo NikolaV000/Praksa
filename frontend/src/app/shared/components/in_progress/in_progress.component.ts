@@ -6,11 +6,14 @@ import {
   CdkDrag,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-in_progress',
-  imports: [CdkDropList, CdkDrag],
+  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule],
   templateUrl: './in_progress.component.html',
   styleUrl: './in_progress.component.css',
   standalone: true
