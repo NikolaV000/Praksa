@@ -14,7 +14,7 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-add-list',
+  selector: 'app-add-project',
   imports: [MatDialogModule,
     MatButtonModule,
     FormsModule,
@@ -24,15 +24,15 @@ import {
     MatDialogClose,
     MatDialogContent,
     MatDialogTitle,],
-  templateUrl: './add-list.component.html',
-  styleUrl: './add-list.component.css',
+  templateUrl: './add-project.component.html',
+  styleUrl: './add-project.component.css',
   standalone: true
 })
-export class AddListComponent {
+export class AddProjectComponent {
   readonly list = signal('');
   readonly dialog = inject(MatDialog);
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddListComponent, {
+    const dialogRef = this.dialog.open(AddProjectComponent, {
       data: {name: this.list()},
 
     });
@@ -44,7 +44,7 @@ export class AddListComponent {
     });
 
   }
-    readonly dialogRef = inject(MatDialogRef<AddListComponent>);
+    readonly dialogRef = inject(MatDialogRef<AddProjectComponent>);
 
     onNoClick(): void {
       this.dialogRef.close();

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { ListPageComponent } from './pages/list-page/list-page.component';
 import { TaskPageComponent } from './pages/task-page/task-page.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { ProjectPageComponent } from './pages/project-page/project-page.component';
 
 export const routes: Routes = [
     { 
@@ -18,8 +18,8 @@ export const routes: Routes = [
       
     },
     {
-        path: 'list-page',
-        component: ListPageComponent,
+        path: 'project-page',
+        component: ProjectPageComponent,
             
     },
     {

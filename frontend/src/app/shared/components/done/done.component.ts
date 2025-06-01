@@ -32,6 +32,8 @@ export class DoneComponent {
       );
     }
   }
+  onDelete(project_id?: string) {}
+  onUpdate(project_id?: string) {}
 
 
 }

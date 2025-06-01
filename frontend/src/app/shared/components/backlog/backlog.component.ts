@@ -49,6 +49,7 @@ export class BacklogComponent {
     });
   }
 
+
   openAddTaskDialog() {
     // Now we need to open a dialog here to
     // create a new task and place it in the 
@@ -59,9 +60,11 @@ export class BacklogComponent {
       height: '400px',
       width: '600px',
     });
+    
 
   }
-  backlog = ["Task1"];
+  
+  backlog =["Task1"];
   
 
   drop(event: CdkDragDrop<string[]>) {
@@ -76,5 +79,7 @@ export class BacklogComponent {
       );
     }
   }
+  onDelete(project_id?: string) {}
+  onUpdate(project_id?: string) {}
 
 }

@@ -4,7 +4,7 @@ import { TodoComponent } from './shared/components/todo/todo.component';
 import { InProgressComponent } from './shared/components/in_progress/in_progress.component';
 import { DoneComponent } from './shared/components/done/done.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ListPageComponent } from './pages/list-page/list-page.component';
+import { ProjectPageComponent } from './pages/project-page/project-page.component';
 import { Router } from '@angular/router';
 import { MenuComponent } from './shared/components/menu/menu.component';
 

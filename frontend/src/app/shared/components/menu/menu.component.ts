@@ -12,8 +12,8 @@ import {MatButtonModule} from '@angular/material/button';
 export class MenuComponent {
   constructor(private router: Router){}
 
-  goToListPage() {
-    this.router.navigate(['/list-page']);
+  goToProjectPage() {
+    this.router.navigate(['/project-page']);
   }
   
 

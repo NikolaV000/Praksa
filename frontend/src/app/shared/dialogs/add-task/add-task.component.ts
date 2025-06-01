@@ -32,6 +32,7 @@ import {
 
 export class AddTaskComponent {
 readonly task = signal('');
+readonly description = signal('');
 readonly dialog = inject(MatDialog);
 openDialog(): void {
   const dialogRef = this.dialog.open(AddTaskComponent, {
@@ -51,6 +52,7 @@ openDialog(): void {
   onNoClick(): void {
     this.dialogRef.close();
   }
+ 
   
 
 }

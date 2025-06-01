@@ -34,5 +34,7 @@ export class InProgressComponent {
       );
     }
   }
+  onDelete(project_id?: string) {}
+  onUpdate(project_id?: string) {}
 
 }

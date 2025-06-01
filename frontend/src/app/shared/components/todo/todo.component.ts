@@ -32,6 +32,9 @@ export class TodoComponent {
       );
     }
   }
+  onDelete(project_id?: string) {}
+  onUpdate(project_id?: string) {}
+
 
 
 

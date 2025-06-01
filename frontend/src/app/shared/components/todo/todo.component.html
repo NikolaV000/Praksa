@@ -10,10 +10,16 @@
     (cdkDropListDropped)="drop($event)">
     @for (item of todo; track item) {
       <div class="list-group-item" cdkDrag>{{item}}
-        <button mat-mini-fab style="width:25px; height:25px; margin-left: 180px;">
-         <mat-icon>delete</mat-icon></button>
-         <button mat-mini-fab style="width:25px; height:25px; margin-left: 10px;">
-         <mat-icon>menu</mat-icon></button>
+         <a (click)="onDelete()">
+          <span class="material-symbols-outlined" style="width:25px; height:25px; margin-left: 180px;">
+            delete
+          </span>
+        </a>
+        <a (click)="onUpdate()">
+          <span class="material-symbols-outlined" style="width:25px; height:25px; margin-left: 5px;">
+            edit
+          </span>
+        </a>
       </div>
     }
   </div>
