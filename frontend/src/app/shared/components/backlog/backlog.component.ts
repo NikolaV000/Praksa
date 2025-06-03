@@ -25,9 +25,8 @@ import {
   ]
 })
 export class BacklogComponent {
-  readonly dialog = inject(MatDialog);
   constructor(
-    private todoService: TodoService,
+    private todoService: TodoService,private dialog: MatDialog
   ) {
 
   }
@@ -60,11 +59,16 @@ export class BacklogComponent {
       height: '400px',
       width: '600px',
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.backlog.push(result);
+      }
+    });
     
 
   }
   
-  backlog =["Task1"];
+  backlog:string[] = [];;
   
 
   drop(event: CdkDragDrop<string[]>) {
@@ -79,7 +83,10 @@ export class BacklogComponent {
       );
     }
   }
-  onDelete(project_id?: string) {}
+  onDelete(itemIndex: number): void {
+    this.backlog.splice(itemIndex, 1);
+
+  }
   onUpdate(project_id?: string) {}
 
 }

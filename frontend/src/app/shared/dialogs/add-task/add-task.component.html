@@ -3,14 +3,14 @@
 <mat-dialog-content>
   <mat-form-field>
     <mat-label>Task name</mat-label>
-    <input matInput [(ngModel)]="task"/>
+    <input matInput [(ngModel)]="task.name"/>
   </mat-form-field>
   <mat-form-field class="text">
     <mat-label>Description</mat-label>
-    <textarea matInput [(ngModel)]="description"></textarea>
+    <textarea matInput [(ngModel)]="task.description"></textarea>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Back</button>
-  <button mat-button [mat-dialog-close]="task()" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="addTask()" cdkFocusInitial>Ok</button>
 </mat-dialog-actions>

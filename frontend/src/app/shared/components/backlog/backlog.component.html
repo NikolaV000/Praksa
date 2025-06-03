@@ -11,10 +11,10 @@
     [cdkDropListConnectedTo]="[]"
     class="list-group border border-secondary"
     (cdkDropListDropped)="drop($event)">
-    @for (item of backlog; track item) {
+    @for (item of backlog; let itemIndex = $index; track item) {
       <div class="list-group-item" cdkDrag>{{item}}
           
-        <a (click)="onDelete()">
+        <a (click)="onDelete(itemIndex)">
           <span class="material-symbols-outlined" style="width:25px; height:25px; margin-left: 180px;">
             delete
           </span>

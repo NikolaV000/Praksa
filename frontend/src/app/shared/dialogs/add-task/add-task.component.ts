@@ -5,9 +5,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {
-  MatDialog,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -22,7 +20,6 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
     MatDialogTitle,],
   templateUrl: './add-task.component.html',
@@ -31,23 +28,13 @@ import {
 })
 
 export class AddTaskComponent {
-readonly task = signal('');
-readonly description = signal('');
-readonly dialog = inject(MatDialog);
-openDialog(): void {
-  const dialogRef = this.dialog.open(AddTaskComponent, {
-    data: {name: this.task()},
-
-  });
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
-    if (result !== undefined) {
-      this.task.set(result);
+task = { name: '', description: '' };
+constructor(private dialogRef: MatDialogRef<AddTaskComponent>) {}
+  addTask(): void {
+    if (this.task.name.trim()) {
+      this.dialogRef.close(this.task.name);
     }
-  });
-
-}
-  readonly dialogRef = inject(MatDialogRef<AddTaskComponent>);
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
