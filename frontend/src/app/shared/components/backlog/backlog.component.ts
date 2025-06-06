@@ -12,6 +12,8 @@ import {
   CdkDrag,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
+import { UpdateTaskComponent } from '../../dialogs/update-task/update-task.component';
+import { ITask } from '../../interfaces/task.interface';
 
 
 @Component({
@@ -25,30 +27,19 @@ import {
   ]
 })
 export class BacklogComponent {
+  backlog: ITask[] = [];
   constructor(
     private todoService: TodoService,private dialog: MatDialog
-  ) {
-
+  ) {}
+  
+  ngOnInit() {
+    this.getTasks();
   }
-
-  createTask() {
-    this.todoService.createTask({
-      title: 'Task 1',
-      descriptin: 'Pleas do it ASAP'
-    }).subscribe({
-      next(val) {
-        console.log('got value ' + val);
-      },
-      error(err) {
-        console.error('something wrong occurred: ' + err);
-      },
-      complete() {
-        console.log('done');
-      },
-    });
+  getTasks(){
+    this.todoService.getTasks()
+      .subscribe(tasks => this.backlog = tasks);
+     
   }
-
-
   openAddTaskDialog() {
     // Now we need to open a dialog here to
     // create a new task and place it in the 
@@ -68,10 +59,7 @@ export class BacklogComponent {
 
   }
   
-  backlog:string[] = [];;
-  
-
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<ITask[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -87,6 +75,20 @@ export class BacklogComponent {
     this.backlog.splice(itemIndex, 1);
 
   }
-  onUpdate(project_id?: string) {}
+  onUpdate(itemIndex: number) {
+
+
+    let dialogRef = this.dialog.open(UpdateTaskComponent, {
+      height: '400px',
+      width: '600px',
+      
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.backlog[itemIndex] = result;
+      }
+    });
+
+  }
 
 }

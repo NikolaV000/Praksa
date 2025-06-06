@@ -11,12 +11,12 @@
     @for (item of todo; track item) {
       <div class="list-group-item" cdkDrag>{{item}}
          <a (click)="onDelete()">
-          <span class="material-symbols-outlined" style="width:25px; height:25px; margin-left: 180px;">
+          <span class="material-symbols-outlined">
             delete
           </span>
         </a>
         <a (click)="onUpdate()">
-          <span class="material-symbols-outlined" style="width:25px; height:25px; margin-left: 5px;">
+          <span class="material-symbols-outlined">
             edit
           </span>
         </a>

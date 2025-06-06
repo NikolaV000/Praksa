@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Update task</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Task name</mat-label>
+    <input matInput [(ngModel)]="data.name"/>
+  </mat-form-field>
+  <mat-form-field class="text">
+    <mat-label>Description</mat-label>
+    <textarea matInput [(ngModel)]="data.description"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Back</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
