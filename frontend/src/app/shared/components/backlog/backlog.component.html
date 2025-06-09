@@ -8,18 +8,18 @@
     cdkDropList
     #doneList="cdkDropList"
     [cdkDropListData]="backlog"
-    [cdkDropListConnectedTo]="[]"
+    [cdkDropListConnectedTo]="['todo','inProgress','done']"
     class="list-group border border-secondary"
-    (cdkDropListDropped)="drop($event)">
+    (cdkDropListDropped)="drop($event,'backlog')">
     @for (item of backlog; let itemIndex = $index; track item?._id) {
       <div class="list-group-item" cdkDrag>{{item?.title}}
           
-        <a (click)="onDelete(itemIndex)">
+        <a (click)="onDelete(item)">
           <span class="material-symbols-outlined">
             delete
           </span>
         </a>
-        <a (click)="onUpdate(itemIndex)">
+        <a (click)="onUpdate(item)">
           <span class="material-symbols-outlined">
             edit
           </span>

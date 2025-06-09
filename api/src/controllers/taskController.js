@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const mongoose = require('mongoose');
 
 exports.getTasks = async (req, res) => {
   const tasks = await Task.find();
@@ -11,12 +12,38 @@ exports.createTask = async (req, res) => {
   res.status(201).json(task);
 };
 
+
 exports.updateTask = async (req, res) => {
-  const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(task);
+  const { id } = req.params;
+  const updatedData = req.body;
+
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(id, updatedData, { new: true });
+    if (!updatedTask) return res.status(404).send('Task not found');
+    res.json(updatedTask);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update task' });
+  }
 };
 
+
+
 exports.deleteTask = async (req, res) => {
-  await Task.findByIdAndDelete(req.params.id);
+try {
+  const { id } = req.params;
+
+    
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid task ID' });
+  }
+
+  const deletedTask = await Task.findByIdAndDelete({ _id: req.params.id});
+
+  if (!deletedTask) {
+    return res.status(404).json({ message: 'Task not found' });
+  }
   res.status(204).send();
+  }catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

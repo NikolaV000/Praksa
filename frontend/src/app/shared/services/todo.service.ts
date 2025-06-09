@@ -18,4 +18,10 @@ export class TodoService {
   getTasks(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
+  deleteTask(id: string)  {
+    return this.http.delete(`http://localhost:8080/api/tasks/${id}`);
+  }
+  updateTask(id: string,payload: any):Observable<any>{
+    return this.http.put(`${this.apiUrl}/${id}`, payload);
+  }
 }

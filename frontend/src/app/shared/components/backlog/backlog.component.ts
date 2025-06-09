@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject} from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../../dialogs/add-task/add-task.component';
@@ -14,6 +14,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { UpdateTaskComponent } from '../../dialogs/update-task/update-task.component';
 import { ITask } from '../../interfaces/task.interface';
+import { TodoComponent } from '../todo/todo.component';
 
 
 @Component({
@@ -27,7 +28,11 @@ import { ITask } from '../../interfaces/task.interface';
   ]
 })
 export class BacklogComponent {
+
   backlog: ITask[] = [];
+  todo: ITask[] = [];
+  inProgress: ITask[] = [];
+  done: ITask[] = [];
   constructor(
     private todoService: TodoService,private dialog: MatDialog
   ) {}
@@ -38,8 +43,12 @@ export class BacklogComponent {
   getTasks(){
     this.todoService.getTasks()
       .subscribe(tasks => this.backlog = tasks);
-     
+      this.backlog = this.backlog.filter(backlog=> backlog.status === 'backlog');
+      this.todo = this.todo.filter(todo => todo.status === 'todo');
+      this.inProgress = this.inProgress.filter(inProgress => inProgress.status === 'in-progress');
+      this.done = this.done.filter(done => done.status === 'done');
   }
+  
   openAddTaskDialog() {
     // Now we need to open a dialog here to
     // create a new task and place it in the 
@@ -59,33 +68,66 @@ export class BacklogComponent {
 
   }
   
-  drop(event: CdkDragDrop<ITask[]>) {
+  drop(event: CdkDragDrop<ITask[]>, newStatus: string) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      const task = event.previousContainer.data[event.previousIndex];
+      
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+      task.status = newStatus;
+      this.todoService.updateTask(task._id, task).subscribe({
+      next: updated => console.log('Task status updated:', updated),
+      error: err => console.error('Error updating task status:', err)
+    });
     }
   }
-  onDelete(itemIndex: number): void {
-    this.backlog.splice(itemIndex, 1);
+  onDelete(task: ITask): void {
+    const taskId = task?._id;
 
+    if (!task || !task._id) {
+    console.error('Task or task._id is missing:', task);
+    return;
+    }
+  
+    this.todoService.deleteTask(taskId).subscribe({
+      next: () => {
+        this.backlog = this.backlog.filter(t => t._id !== taskId);
+      },
+      error: (err) => {
+        console.error('Error deleting task:', err);
+      }
+    });
   }
-  onUpdate(itemIndex: number) {
+  
+
+  
+  onUpdate(task: ITask) {
 
 
     let dialogRef = this.dialog.open(UpdateTaskComponent, {
       height: '400px',
       width: '600px',
+      data: {
+        _id: task._id,
+        title: task.title,
+        description: task.description,
+        status: task.status
+      }
       
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.backlog[itemIndex] = result;
+    dialogRef.afterClosed().subscribe(updatedTask => {
+      if (updatedTask) {
+        const index = this.backlog.findIndex(t => t._id === updatedTask._id);
+        if (index > -1) {
+          this.backlog[index] = updatedTask;
+        }
+        
       }
     });
 
