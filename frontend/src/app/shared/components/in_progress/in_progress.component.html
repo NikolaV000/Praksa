@@ -2,19 +2,20 @@
     <h1>In Progress</h1>
     <div
     cdkDropList
+    id="in_progress"
     #in_progressList="cdkDropList"
     [cdkDropListData]="in_progress"
-    [cdkDropListConnectedTo]="[]"
+    [cdkDropListConnectedTo]="['todo','done','backlog']"
     class="list-group border border-secondary"
-    (cdkDropListDropped)="drop($event)">
-    @for (item of in_progress; track item) {
-      <div class="list-group-item" cdkDrag>{{item}}
-        <a (click)="onDelete()">
+    (cdkDropListDropped)="drop($event,'in_progress')">
+    @for (item of in_progress; track item?._id) {
+      <div class="list-group-item" cdkDrag>{{item?.title}}
+        <a (click)="onDelete(item)">
           <span class="material-symbols-outlined">
             delete
           </span>
         </a>
-        <a (click)="onUpdate()">
+        <a (click)="onUpdate(item)">
           <span class="material-symbols-outlined">
             edit
           </span>

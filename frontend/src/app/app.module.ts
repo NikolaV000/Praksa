@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router'; 
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { TaskService } from './shared/services/task.service';
 
 // import your components...
 
@@ -16,7 +18,13 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
   ],
-  providers: []
+  providers: [
+    TaskService,
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { autoFocus: 'dialog', restoreFocus: true }
+    }
+  ]
 
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Component, Inject  } from '@angular/core';
+import { Component, inject, Inject  } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
@@ -11,6 +11,9 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { ITask } from '../../interfaces/task.interface';
+import { TaskService } from '../../services/task.service';
+import { TodoService } from '../../services/todo.service';
 
 
 @Component({
@@ -26,12 +29,14 @@ import {
     MatDialogTitle,],
   templateUrl: './update-task.component.html',
   styleUrl: './update-task.component.css',
-  standalone: true
+  standalone: true,
 })
 export class UpdateTaskComponent {
+  taskService = inject(TaskService)
+  todoService= inject(TodoService)
   constructor(
     public dialogRef: MatDialogRef<UpdateTaskComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { name: string; description: string }
+    @Inject(MAT_DIALOG_DATA) public data: ITask,
   ) {}
   
   onCancel(): void {
@@ -39,7 +44,13 @@ export class UpdateTaskComponent {
   }
 
   onSave(): void {
-    this.dialogRef.close(this.data);
+     this.todoService.updateTask(this.data._id, this.data).subscribe({
+      next: () => {
+        this.taskService.taskConfirm();
+        this.dialogRef.close(this.data);
+      },
+      error: (err) => console.error('Update failed', err),
+    });
   }
 
 }

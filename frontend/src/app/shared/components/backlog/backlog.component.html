@@ -1,17 +1,18 @@
 <div class="row">
     <h1 class="col">Backlog</h1>
     <button
-        style="width:60px; height:38px; margin-right:15px; margin-top:10px;"type="button" class="btn btn-primary col" 
+        style="width:60px; height:38px; margin-right:15px; margin-top:10px;" type="button" class="btn btn-primary col" 
         (click)="openAddTaskDialog()">Add Task</button>
 </div>
 <div
     cdkDropList
-    #doneList="cdkDropList"
+    id="backlog"
+    #backlogList="cdkDropList"
     [cdkDropListData]="backlog"
-    [cdkDropListConnectedTo]="['todo','inProgress','done']"
+    [cdkDropListConnectedTo]="['todo','in_progress','done']"
     class="list-group border border-secondary"
     (cdkDropListDropped)="drop($event,'backlog')">
-    @for (item of backlog; let itemIndex = $index; track item?._id) {
+    @for (item of backlog; track item?._id) {
       <div class="list-group-item" cdkDrag>{{item?.title}}
           
         <a (click)="onDelete(item)">
@@ -27,9 +28,4 @@
             
       </div>
     }
-</div>
-<div>
-     <button
-        style="margin-top: 10px; margin-left: 10px;" type="button" class="btn btn-primary" 
-        (click)="openAddTaskDialog()">Add Task</button>
 </div>

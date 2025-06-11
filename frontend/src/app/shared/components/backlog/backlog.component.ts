@@ -14,7 +14,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { UpdateTaskComponent } from '../../dialogs/update-task/update-task.component';
 import { ITask } from '../../interfaces/task.interface';
-import { TodoComponent } from '../todo/todo.component';
+import { TaskService } from '../../services/task.service';
 
 
 @Component({
@@ -24,45 +24,51 @@ import { TodoComponent } from '../todo/todo.component';
   styleUrl: './backlog.component.css',
   standalone: true,
   providers: [
-    TodoService
+    TodoService,
+    TaskService
   ]
 })
 export class BacklogComponent {
 
   backlog: ITask[] = [];
   todo: ITask[] = [];
-  inProgress: ITask[] = [];
+  in_progress: ITask[] = [];
   done: ITask[] = [];
   constructor(
-    private todoService: TodoService,private dialog: MatDialog
-  ) {}
+    private todoService: TodoService,
+    private dialog: MatDialog,
+    private taskService: TaskService
+  ) {
+  
+  }
   
   ngOnInit() {
     this.getTasks();
+    this.taskService.taskEmit.subscribe(res => this.getTasks())
   }
   getTasks(){
     this.todoService.getTasks()
-      .subscribe(tasks => this.backlog = tasks);
-      this.backlog = this.backlog.filter(backlog=> backlog.status === 'backlog');
-      this.todo = this.todo.filter(todo => todo.status === 'todo');
-      this.inProgress = this.inProgress.filter(inProgress => inProgress.status === 'in-progress');
-      this.done = this.done.filter(done => done.status === 'done');
+      .subscribe((tasks:ITask[]) =>{
+        this.backlog = tasks.filter(backlog=> backlog.status === 'backlog');
+        this.todo = tasks.filter(todo => todo.status === 'todo');
+        this.in_progress = tasks.filter(in_progress => in_progress.status === 'in_progress');
+        this.done = tasks.filter(done => done.status === 'done');
+      });
+     
+
   }
   
   openAddTaskDialog() {
-    // Now we need to open a dialog here to
-    // create a new task and place it in the 
-    // backlog column
-    //
-    // https://material.angular.io/components/dialog/overview
     let dialogRef = this.dialog.open(AddTaskComponent, {
+      autoFocus: false,
       height: '400px',
-      width: '600px',
+      width: '600px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.backlog.push(result);
       }
+      this.getTasks();
     });
     
 

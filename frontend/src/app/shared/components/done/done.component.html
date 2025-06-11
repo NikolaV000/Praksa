@@ -2,19 +2,20 @@
     <h1 >Done</h1>
   <div
     cdkDropList
+    id="done"
     #doneList="cdkDropList"
     [cdkDropListData]="done"
-    [cdkDropListConnectedTo]="[]"
+    [cdkDropListConnectedTo]="['todo','in_progress','backlog']"
     class="list-group border border-secondary"
-    (cdkDropListDropped)="drop($event)">
-    @for (item of done; track item) {
-      <div class="list-group-item" cdkDrag>{{item}}
-        <a (click)="onDelete()">
+    (cdkDropListDropped)="drop($event,'done')">
+    @for (item of done; track item?._id) {
+      <div class="list-group-item" cdkDrag>{{item?.title}}
+        <a (click)="onDelete(item)">
           <span class="material-symbols-outlined">
             delete
           </span>
         </a>
-        <a (click)="onUpdate()">
+        <a (click)="onUpdate(item)">
           <span class="material-symbols-outlined">
             edit
           </span>
