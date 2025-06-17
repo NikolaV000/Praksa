@@ -1,4 +1,4 @@
-import { Component,} from '@angular/core';
+import { Component, Inject,} from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TaskService } from '../../services/task.service';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -12,6 +12,10 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { ITask } from '../../interfaces/task.interface';
+import { IProject } from '../../interfaces/project.interface';
+import { ActivatedRoute } from '@angular/router';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -35,21 +39,31 @@ import {
 })
 
 export class AddTaskComponent {
-task = { name: '', description: '' };
+task:ITask={
+  title: '', description: '',
+  _id: '',
+  status: '',
+  projectId: ''
+};
 constructor(
   private todoService: TodoService,
   private dialogRef: MatDialogRef<AddTaskComponent>,
-  private taskService: TaskService
+  private taskService: TaskService,
+  private route: ActivatedRoute,
+  @Inject(MAT_DIALOG_DATA) public data: { projectId: string }
 ) {}
+
  
  createTask() {
-    this.todoService.createTask({
-      title: this.task.name,
-      description: this.task.description,
-      status: 'backlog' 
-    }).subscribe({
+  if (!this.task.status || this.task.status.trim() === '') {
+    this.task.status = 'backlog'; 
+  }
+  this.task.projectId=this.data.projectId;
+
+    this.todoService.createTask(this.task.projectId,this.task).subscribe({
       next: value => {
         console.log('Received value:', value);
+        this.taskService.taskConfirm(this.task.projectId);
         this.dialogRef.close(value);
       },
       error: err => {
@@ -57,8 +71,7 @@ constructor(
       },
       complete: () => {
         console.log('Observable completed'); 
-        this.taskService.taskConfirm();
-        this.dialogRef.close(true);
+        this.taskService.taskConfirm(this.task.projectId);
       }
     });
    

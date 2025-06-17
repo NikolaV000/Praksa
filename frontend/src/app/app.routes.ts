@@ -13,7 +13,7 @@ export const routes: Routes = [
         path: 'login', component: LoginComponent 
     },
     {
-        path: 'task-page',
+        path: ':projectId/task-page',
         component: TaskPageComponent,
       
     },

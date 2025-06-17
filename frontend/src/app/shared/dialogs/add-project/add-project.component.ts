@@ -12,6 +12,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { ProjectService } from '../../services/project.services';
 
 @Component({
   selector: 'app-add-project',
@@ -21,7 +22,6 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
     MatDialogTitle,],
   templateUrl: './add-project.component.html',
@@ -29,25 +29,20 @@ import {
   standalone: true
 })
 export class AddProjectComponent {
-  readonly list = signal('');
-  readonly dialog = inject(MatDialog);
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddProjectComponent, {
-      data: {name: this.list()},
+  projectName = '';
+  readonly dialogRef = inject(MatDialogRef<AddProjectComponent>);
+  readonly projectService = inject(ProjectService);
 
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result !== undefined) {
-        this.list.set(result);
-      }
-    });
-
-  }
-    readonly dialogRef = inject(MatDialogRef<AddProjectComponent>);
-
-    onNoClick(): void {
-      this.dialogRef.close();
+  onSave(): void {
+    if (this.projectName.trim()) {
+      this.projectService.createProject(this.projectName).subscribe({
+        next: () => this.dialogRef.close(true),
+        error: err => console.error('Failed to create project:', err)
+      });
     }
+  }
 
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }

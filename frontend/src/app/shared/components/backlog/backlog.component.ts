@@ -15,6 +15,9 @@ import {
 import { UpdateTaskComponent } from '../../dialogs/update-task/update-task.component';
 import { ITask } from '../../interfaces/task.interface';
 import { TaskService } from '../../services/task.service';
+import { IProject } from '../../interfaces/project.interface';
+import { TaskPageComponent } from '../../../pages/task-page/task-page.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -28,7 +31,7 @@ import { TaskService } from '../../services/task.service';
     TaskService
   ]
 })
-export class BacklogComponent {
+export class BacklogComponent{
 
   backlog: ITask[] = [];
   todo: ITask[] = [];
@@ -37,23 +40,33 @@ export class BacklogComponent {
   constructor(
     private todoService: TodoService,
     private dialog: MatDialog,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private route: ActivatedRoute
   ) {
   
   }
   
+ 
+  projectId:string='';
+  
   ngOnInit() {
+    this.projectId=this.route.snapshot.paramMap.get('projectId')!;
     this.getTasks();
-    this.taskService.taskEmit.subscribe(res => this.getTasks())
+    this.taskService.taskEmit.subscribe((project) => {
+    if (project === this.projectId) {
+      this.getTasks(); 
+    }
+    });
   }
   getTasks(){
-    this.todoService.getTasks()
+    this.todoService.getTasks(this.projectId)
       .subscribe((tasks:ITask[]) =>{
-        this.backlog = tasks.filter(backlog=> backlog.status === 'backlog');
-        this.todo = tasks.filter(todo => todo.status === 'todo');
-        this.in_progress = tasks.filter(in_progress => in_progress.status === 'in_progress');
-        this.done = tasks.filter(done => done.status === 'done');
-      });
+              this.backlog = tasks.filter(backlog=> backlog.status === 'backlog');
+              this.todo = tasks.filter(todo => todo.status === 'todo');
+              this.in_progress = tasks.filter(in_progress => in_progress.status === 'in_progress');
+              this.done = tasks.filter(done => done.status === 'done');
+    });
+
      
 
   }
@@ -62,7 +75,10 @@ export class BacklogComponent {
     let dialogRef = this.dialog.open(AddTaskComponent, {
       autoFocus: false,
       height: '400px',
-      width: '600px'
+      width: '600px',
+      data: {
+        projectId: this.projectId
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -87,7 +103,7 @@ export class BacklogComponent {
         event.currentIndex,
       );
       task.status = newStatus;
-      this.todoService.updateTask(task._id, task).subscribe({
+      this.todoService.updateTask(this.projectId,task._id,task).subscribe({
       next: updated => console.log('Task status updated:', updated),
       error: err => console.error('Error updating task status:', err)
     });
@@ -101,7 +117,7 @@ export class BacklogComponent {
     return;
     }
   
-    this.todoService.deleteTask(taskId).subscribe({
+    this.todoService.deleteTask(this.projectId,taskId).subscribe({
       next: () => {
         this.backlog = this.backlog.filter(t => t._id !== taskId);
       },
@@ -123,7 +139,8 @@ export class BacklogComponent {
         _id: task._id,
         title: task.title,
         description: task.description,
-        status: task.status
+        status: task.status,
+        projectId: this.projectId
       }
       
     });

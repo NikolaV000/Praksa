@@ -14,6 +14,8 @@ import { ITask } from '../../interfaces/task.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../../dialogs/update-task/update-task.component';
 import { TaskService } from '../../services/task.service';
+import { IProject } from '../../interfaces/project.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todo',
@@ -30,14 +32,22 @@ export class TodoComponent {
   constructor(
     private todoService: TodoService,
     private dialog: MatDialog,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private route: ActivatedRoute
   ) {}
+  
+    projectId:string='';
   ngOnInit() {
+    this.projectId=this.route.snapshot.paramMap.get('projectId')!;
     this.getTasks();
-    this.taskService.taskEmit.subscribe(res => this.getTasks())
+    this.taskService.taskEmit.subscribe((project) => {
+    if (project === this.projectId) {
+      this.getTasks(); 
+    }
+    });
   }
   getTasks(){
-    this.todoService.getTasks()
+    this.todoService.getTasks(this.projectId)
       .subscribe((tasks:ITask[]) =>{
         this.backlog = tasks.filter(backlog=> backlog.status === 'backlog');
         this.todo = tasks.filter(todo => todo.status === 'todo');
@@ -60,7 +70,7 @@ export class TodoComponent {
         event.currentIndex,
       );
       task.status = newStatus;
-      this.todoService.updateTask(task._id, task).subscribe({
+      this.todoService.updateTask(this.projectId,task._id,task).subscribe({
       next: updated => console.log('Task status updated:', updated),
       error: err => console.error('Error updating task status:', err)
       });
@@ -74,7 +84,7 @@ export class TodoComponent {
          return;
          }
        
-         this.todoService.deleteTask(taskId).subscribe({
+         this.todoService.deleteTask(this.projectId,taskId).subscribe({
            next: () => {
              this.backlog = this.backlog.filter(t => t._id !== taskId);
              this.getTasks();
@@ -97,7 +107,8 @@ export class TodoComponent {
              _id: task._id,
              title: task.title,
              description: task.description,
-             status: task.status
+             status: task.status,
+             projectId: this.projectId
            }
            
          });

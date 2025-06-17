@@ -3,11 +3,11 @@
 <mat-dialog-content>
   <mat-form-field>
     <mat-label>Task name</mat-label>
-    <input matInput [(ngModel)]="task.name"/>
+    <input matInput [(ngModel)]="task.title" name="title" />
   </mat-form-field>
   <mat-form-field class="text">
     <mat-label>Description</mat-label>
-    <textarea matInput [(ngModel)]="task.description"></textarea>
+    <textarea matInput [(ngModel)]="task.description" name="description"></textarea>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

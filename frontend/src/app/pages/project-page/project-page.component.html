@@ -5,40 +5,22 @@
 </div>
 <div class="d-flex justify-content-center">
     <div style="width:1200px" class="list-group">
-        <div class="d-flex justify-content-between list-group-item">
-            <a (click)="goToTaskPage()">Project1</a>
+        <div *ngFor="let project of projects" class="d-flex justify-content-between list-group-item">
+            <a (click)="goToTaskPage(project._id)" style="cursor: pointer;">
+        {{ project.name }}</a>
             <div>
-                <a (click)="onDelete()">
+                <a (click)="onDelete(project._id)"style="cursor: pointer;">
                     <span class="material-symbols-outlined">
                         delete
                     </span>
                 </a>
-                <a (click)="onUpdate()">
+                <a (click)="onUpdate(project)"style="cursor: pointer;">
                     <span class="material-symbols-outlined">
                         edit
                     </span>
                 </a>
             </div>
         </div>
-        <div class="d-flex justify-content-between list-group-item">
-            <span>Project2</span>
-            <div>
-                <a (click)="onDelete()">
-                    <span class="material-symbols-outlined">
-                        delete
-                    </span>
-                </a>
-                <a (click)="onUpdate()">
-                    <span class="material-symbols-outlined">
-                        edit
-                    </span>
-                </a>
-            </div>
-        </div>
+       
     </div>
-</div>
-
-<div>
-    <button style="margin-left: 90px; margin-top: 10px" type="button" class="btn btn-primary"
-        (click)="openAddProjectDialog()">Add Project</button>
 </div>

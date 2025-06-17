@@ -3,9 +3,13 @@ const router = express.Router();
 const taskController = require('../controllers/taskController');
 
 
-router.get('/', taskController.getTasks);
-router.post('/', taskController.createTask);
-router.put('/:id', taskController.updateTask);
-router.delete('/:id', taskController.deleteTask);
+// Get/Create tasks for project
+router.get('/:projectId', taskController.getTasks);
+router.post('/:projectId', taskController.createTask);
+
+// Update/Delete a specific task by ID
+router.put('/:projectId/:id', taskController.updateTask);
+router.delete('/:projectId/:id', taskController.deleteTask);
+
 
 module.exports = router;

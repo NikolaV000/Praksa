@@ -7,13 +7,13 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class TaskService {
   apiUrl: string = "http://localhost:8080/api/tasks";
-  taskEmit = new EventEmitter<boolean>();
+  taskEmit = new EventEmitter<string>();
   constructor(
     private http: HttpClient
   ) { }
 
-  taskConfirm() {
-     this.taskEmit.emit(true);
+  taskConfirm(projectId: string) {
+     this.taskEmit.emit(projectId);
   }
   
 }

@@ -2,10 +2,10 @@
 <mat-dialog-content>
   <mat-form-field>
     <mat-label>Project name</mat-label>
-    <input matInput [(ngModel)]="list"/>
+    <input matInput [(ngModel)]=" projectName"/>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Back</button>
-  <button mat-button [mat-dialog-close]="list()" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onCancel()">Back</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Ok</button>
 </mat-dialog-actions>
