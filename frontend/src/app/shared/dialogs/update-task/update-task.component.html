@@ -2,14 +2,15 @@
 <mat-dialog-content>
   <mat-form-field>
     <mat-label>Task name</mat-label>
-    <input matInput [(ngModel)]="data.title"/>
+    <input *ngIf="role === 'guest'" [readonly]="true" matInput [(ngModel)]="data.title"/>
   </mat-form-field>
   <mat-form-field class="text">
     <mat-label>Description</mat-label>
-    <textarea matInput [(ngModel)]="data.description"></textarea>
+    <textarea *ngIf="role === 'guest'" [readonly]="true"
+     matInput [(ngModel)]="data.description"></textarea>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onCancel()">Back</button>
-  <button mat-button (click)="onSave()" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onSave()" *ngIf="role === 'guest'" cdkFocusInitial>Ok</button>
 </mat-dialog-actions>

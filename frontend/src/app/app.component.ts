@@ -19,7 +19,7 @@ import { MenuComponent } from './shared/components/menu/menu.component';
     // InProgressComponent,
     // DoneComponent,
     AppRoutingModule,
-    MenuComponent
+    //MenuComponent
   ]
 })
 export class AppComponent {

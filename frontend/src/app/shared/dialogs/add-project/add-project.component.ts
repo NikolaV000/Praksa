@@ -1,5 +1,5 @@
-import { Component, inject, signal} from '@angular/core';
-import {MatDialogModule} from '@angular/material/dialog';
+import { Component, Inject, inject, signal} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { ProjectService } from '../../services/project.services';
+import { IProject } from '../../interfaces/project.interface';
 
 @Component({
   selector: 'app-add-project',
@@ -29,13 +30,19 @@ import { ProjectService } from '../../services/project.services';
   standalone: true
 })
 export class AddProjectComponent {
-  projectName = '';
+  project:IProject={
+  _id: "",
+  name: "",
+  userId: ""
+};
   readonly dialogRef = inject(MatDialogRef<AddProjectComponent>);
   readonly projectService = inject(ProjectService);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { userId: string }){}
 
   onSave(): void {
-    if (this.projectName.trim()) {
-      this.projectService.createProject(this.projectName).subscribe({
+    this.project.userId=this.data.userId;
+    if (this.project.name.trim()) {
+      this.projectService.createProject(this.project.userId,this.project.name).subscribe({
         next: () => this.dialogRef.close(true),
         error: err => console.error('Failed to create project:', err)
       });

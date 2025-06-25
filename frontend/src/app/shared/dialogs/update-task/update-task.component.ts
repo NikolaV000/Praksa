@@ -1,4 +1,4 @@
-import { Component, inject, Inject  } from '@angular/core';
+import { Component, inject, Inject, OnInit  } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
@@ -15,6 +15,9 @@ import { ITask } from '../../interfaces/task.interface';
 import { TaskService } from '../../services/task.service';
 import { TodoService } from '../../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
+
 
 
 @Component({
@@ -27,21 +30,33 @@ import { ActivatedRoute } from '@angular/router';
     MatInputModule,
     MatDialogActions,
     MatDialogContent,
-    MatDialogTitle,],
+    MatDialogTitle, CommonModule],
   templateUrl: './update-task.component.html',
   styleUrl: './update-task.component.css',
   standalone: true,
 })
-export class UpdateTaskComponent {
-  taskService = inject(TaskService)
-  todoService= inject(TodoService)
+export class UpdateTaskComponent implements OnInit {
+  taskService = inject(TaskService);
+  todoService= inject(TodoService);
+  authService = inject(AuthService);
   constructor(
     public dialogRef: MatDialogRef<UpdateTaskComponent>,
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: ITask,
   ) {}
+  
 
   projectId:string='';
+  username: string = '';
+  role: 'admin' | 'guest' = 'guest';
+  ngOnInit(): void {
+    const user = this.authService.currentUser;
+    if (user) {
+      this.username = user.username;
+      this.role = user.role;
+    }
+    
+  }
   
   onCancel(): void {
     this.dialogRef.close();

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>User dialog box</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input readonly matInput [(ngModel)]=" username"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Back</button>
+  <button mat-button (click)="onLogOut()" *ngIf="role === 'admin'">Log out</button>
+  <button mat-button (click)="onSignOut()">Sign out</button>
+</mat-dialog-actions>

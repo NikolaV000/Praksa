@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -16,10 +16,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskService } from '../../services/task.service';
 import { IProject } from '../../interfaces/project.interface';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-done',
-  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule],
+  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule,CommonModule],
   templateUrl: './done.component.html',
   styleUrl: './done.component.css',
   standalone: true,
@@ -29,6 +31,7 @@ export class DoneComponent {
   todo: ITask[] = [];
   in_progress: ITask[] = [];
   done: ITask[] = [];
+  authService = inject(AuthService);
   constructor(
     private todoService: TodoService,
     private dialog: MatDialog,
@@ -37,6 +40,8 @@ export class DoneComponent {
   ) {}
   
   projectId:string='';
+  username: string = '';
+  role: 'admin' | 'guest' = 'guest';
   ngOnInit() {
     this.projectId=this.route.snapshot.paramMap.get('projectId')!;
     this.getTasks();
@@ -45,6 +50,11 @@ export class DoneComponent {
       this.getTasks(); 
     }
     });
+    const user = this.authService.currentUser;
+    if (user) {
+      this.username = user.username;
+      this.role = user.role;
+    }
   }
   getTasks(){
     this.todoService.getTasks(this.projectId)

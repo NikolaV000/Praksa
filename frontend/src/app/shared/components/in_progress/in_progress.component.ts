@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -16,11 +16,14 @@ import { UpdateTaskComponent } from '../../dialogs/update-task/update-task.compo
 import { TaskService } from '../../services/task.service';
 import { IProject } from '../../interfaces/project.interface';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
+
 
 
 @Component({
   selector: 'app-in_progress',
-  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule],
+  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule,CommonModule],
   templateUrl: './in_progress.component.html',
   styleUrl: './in_progress.component.css',
   standalone: true
@@ -32,6 +35,7 @@ export class InProgressComponent {
   todo: ITask[] = [];
   in_progress: ITask[] = [];
   done: ITask[] = [];
+  authService = inject(AuthService);
   constructor(
     private todoService: TodoService,
     private dialog: MatDialog,
@@ -40,6 +44,8 @@ export class InProgressComponent {
   ) {}
   
   projectId:string='';
+  username: string = '';
+  role: 'admin' | 'guest' = 'guest';
   ngOnInit() {
     this.projectId=this.route.snapshot.paramMap.get('projectId')!;
     this.getTasks();
@@ -48,6 +54,11 @@ export class InProgressComponent {
       this.getTasks(); 
     }
     });
+    const user = this.authService.currentUser;
+    if (user) {
+      this.username = user.username;
+      this.role = user.role;
+    }
   }
   getTasks(){
     this.todoService.getTasks(this.projectId)

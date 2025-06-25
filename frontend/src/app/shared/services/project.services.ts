@@ -11,20 +11,20 @@ export class ProjectService {
   constructor(private http: HttpClient) {}
 
 
-  getProjects(): Observable<IProject[]> {
-    return this.http.get<IProject[]>(this.apiUrl);
+  getProjects(userId: string): Observable<IProject[]> {
+    return this.http.get<IProject[]>(`http://localhost:8080/api/project/${userId}`);
   }
 
-  createProject(name: string): Observable<IProject> {
-    return this.http.post<IProject>(this.apiUrl, { name });
+  createProject(userId: string,name: string): Observable<IProject> {
+    return this.http.post<IProject>(`${this.apiUrl}/${userId}`, { name });
   }
 
-  updateProject(id: string, name: string): Observable<IProject> {
-    return this.http.put<IProject>(`${this.apiUrl}/${id}`, { name });
+  updateProject(userId: string,id: string, name: string): Observable<IProject> {
+    return this.http.put<IProject>(`${this.apiUrl}/${userId}/${id}`, { name });
   }
 
-  deleteProject(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteProject(userId: string,id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${userId}/${id}`);
   }
 }
 

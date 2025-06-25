@@ -1,20 +1,24 @@
+<div class="d-flex justify-content-left">
+    <app-menu></app-menu>
+    <button type="button" class="btn btn-primary" (click)="openUserDialog()">{{username}}</button>
+</div>
 <div class="d-flex justify-content-center">
     <h1>Project</h1>
     <button style="margin-left: 10px; margin-bottom: 10px; margin-top: 10px; width:160px; height:35px;"
-        (click)="openAddProjectDialog()" type="button" class="btn btn-primary">Add Project</button>
+        (click)="openAddProjectDialog()" *ngIf="role === 'admin'" type="button" class="btn btn-primary">Add Project</button>
 </div>
 <div class="d-flex justify-content-center">
     <div style="width:1200px" class="list-group">
-        <div *ngFor="let project of projects" class="d-flex justify-content-between list-group-item">
+        <div *ngFor="let project of projects"  class="d-flex justify-content-between list-group-item">
             <a (click)="goToTaskPage(project._id)" style="cursor: pointer;">
         {{ project.name }}</a>
             <div>
-                <a (click)="onDelete(project._id)"style="cursor: pointer;">
+                <a (click)="onDelete(project)" *ngIf="role === 'admin'" style="cursor: pointer;">
                     <span class="material-symbols-outlined">
                         delete
                     </span>
                 </a>
-                <a (click)="onUpdate(project)"style="cursor: pointer;">
+                <a (click)="onUpdate(project)" *ngIf="role === 'admin'" style="cursor: pointer;">
                     <span class="material-symbols-outlined">
                         edit
                     </span>

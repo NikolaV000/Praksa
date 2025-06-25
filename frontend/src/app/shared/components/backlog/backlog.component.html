@@ -1,7 +1,8 @@
 <div class="row">
     <h1 class="col">Backlog</h1>
     <button
-        style="width:60px; height:38px; margin-right:15px; margin-top:10px;" type="button" class="btn btn-primary col" 
+        style="width:60px; height:38px; margin-right:15px; margin-top:10px;"
+        *ngIf="role === 'admin'" type="button" class="btn btn-primary col" 
         (click)="openAddTaskDialog()">Add Task</button>
 </div>
 <div
@@ -10,12 +11,13 @@
     #backlogList="cdkDropList"
     [cdkDropListData]="backlog"
     [cdkDropListConnectedTo]="['todo','in_progress','done']"
+    [cdkDropListDisabled]="role === 'guest'"
     class="list-group border border-secondary"
-    (cdkDropListDropped)="drop($event,'backlog')">
+    (cdkDropListDropped)="drop($event,'backlog')" >
     @for (item of backlog; track item?._id) {
-      <div class="list-group-item" cdkDrag>{{item?.title}}
+      <div class="list-group-item" cdkDrag [cdkDragDisabled]="role === 'guest'">{{item?.title}}
           
-        <a (click)="onDelete(item)">
+        <a (click)="onDelete(item)" *ngIf="role === 'admin'">
           <span class="material-symbols-outlined">
             delete
           </span>

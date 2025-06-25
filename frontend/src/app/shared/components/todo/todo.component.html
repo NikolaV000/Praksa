@@ -7,12 +7,13 @@
     #todoList="cdkDropList"
     [cdkDropListData]="todo"
     [cdkDropListConnectedTo]="['in_progress','done','backlog']"
+    [cdkDropListDisabled]="role === 'guest'"
     class="list-group border border-secondary"
     (cdkDropListDropped)="drop($event,'todo')">
     @for (item of todo; track item?._id) {
-      <div class="list-group-item" cdkDrag>{{item?.title}}
+      <div class="list-group-item" cdkDrag [cdkDragDisabled]="role === 'guest'">{{item?.title}}
          <a (click)="onDelete(item)">
-          <span class="material-symbols-outlined">
+          <span class="material-symbols-outlined" *ngIf="role === 'admin'">
             delete
           </span>
         </a>

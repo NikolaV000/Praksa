@@ -1,4 +1,4 @@
-import { Component, Inject} from '@angular/core';
+import { Component, inject, Inject} from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../../dialogs/add-task/add-task.component';
@@ -18,11 +18,13 @@ import { TaskService } from '../../services/task.service';
 import { IProject } from '../../interfaces/project.interface';
 import { TaskPageComponent } from '../../../pages/task-page/task-page.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-backlog',
-  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule],
+  imports: [CdkDropList, CdkDrag,MatIconModule,MatDividerModule,MatButtonModule,CommonModule],
   templateUrl: './backlog.component.html',
   styleUrl: './backlog.component.css',
   standalone: true,
@@ -37,6 +39,7 @@ export class BacklogComponent{
   todo: ITask[] = [];
   in_progress: ITask[] = [];
   done: ITask[] = [];
+  authService = inject(AuthService);
   constructor(
     private todoService: TodoService,
     private dialog: MatDialog,
@@ -48,6 +51,8 @@ export class BacklogComponent{
   
  
   projectId:string='';
+  username: string = '';
+  role: 'admin' | 'guest' = 'guest';
   
   ngOnInit() {
     this.projectId=this.route.snapshot.paramMap.get('projectId')!;
@@ -57,6 +62,11 @@ export class BacklogComponent{
       this.getTasks(); 
     }
     });
+     const user = this.authService.currentUser;
+    if (user) {
+      this.username = user.username;
+      this.role = user.role;
+    }
   }
   getTasks(){
     this.todoService.getTasks(this.projectId)

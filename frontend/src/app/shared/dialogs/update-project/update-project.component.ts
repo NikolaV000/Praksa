@@ -36,7 +36,7 @@ export class UpdateProjectComponent {
     const trimmedName = this.projectName.trim();
     if (!trimmedName) return;
 
-    this.projectService.updateProject(this.data._id!,trimmedName).subscribe({
+    this.projectService.updateProject(this.data.userId,this.data._id!,trimmedName).subscribe({
       next: () => this.dialogRef.close(true),
       error: (err) => console.error('Failed to update project:', err)
     });

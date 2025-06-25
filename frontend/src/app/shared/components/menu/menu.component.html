@@ -1,4 +1,6 @@
 <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-<mat-menu #menu="matMenu">
-    <button type="button" class="btn btn-primary" (click)="goToProjectPage()">Go to Project Page</button>
+<mat-menu #menu="matMenu" >
+    <div *ngFor="let admin of admins">
+    <button type="button" class="btn btn-primary" (click)="goToProjectPage(admin._id)">{{ admin.username }}</button>
+    </div>
 </mat-menu>
